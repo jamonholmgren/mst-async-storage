@@ -52,8 +52,6 @@ async demo () {
   happy.setSpiders(true)
 
   // it will automatically save back to async storage!
-
-
 }
 ```
 
