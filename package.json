@@ -35,7 +35,7 @@
     "e2e": "npm-run-all clean:* compile test:compile test clean:* compile build"
   },
   "peerDependencies": {
-    "mobx-state-tree": "2.x | 3.x"
+    "mobx-state-tree": "2.x || 3.x"
   },
   "devDependencies": {
     "@types/lodash.camelcase": "4.3.4",
