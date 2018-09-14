@@ -35,7 +35,7 @@ export const NiceThingsModel = types
       self.spiders = value
     },
   }))
-  .extend(withAsyncStorage()) // <-- 🎉
+  .extend(withAsyncStorage({ key: "nice.things" })) // <-- 🎉
 ```
 
 Now you can load it:
