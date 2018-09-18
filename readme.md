@@ -59,10 +59,12 @@ async demo () {
 
 `withAsyncStorage()` accepts an optional object as a parameter with these keys:
 
-| key      | what it does                                                                        |
-| -------- | ----------------------------------------------------------------------------------- |
-| key      | The key to use when saving to AsyncStorage (default: the model type name)           |
-| autoSave | Should we automatically save when any values change on the model? (default: `true`) |
+| key      | type             | what it does                                                                        |
+| -------- | ---------------- | ----------------------------------------------------------------------------------- |
+| key      | string           | The key to use when saving to AsyncStorage (default: the model type name)           |
+| autoSave | boolean          | Should we automatically save when any values change on the model? (default: `true`) |
+| only     | string, string[] | will only include the keys with these names                                         |
+| except   | string, string[] | will omit keys with these names                                                     |
 
 # Contributing?
 
