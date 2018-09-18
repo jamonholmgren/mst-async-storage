@@ -101,3 +101,27 @@ test("save can be called manually", async t => {
   const ex = td.explain(reactNative.AsyncStorage.setItem)
   t.deepEqual(JSON.parse(ex.calls[0].args[1]), { age: 1, name: "kid" })
 })
+
+test("only", async t => {
+  const Model = SampleModel.extend(withAsyncStorage({ autoSave: false, only: ["age"] }))
+  const model = Model.create({ age: 1, name: "kid" })
+  await model.save()
+  const ex = td.explain(reactNative.AsyncStorage.setItem)
+  t.deepEqual(JSON.parse(ex.calls[0].args[1]), { age: 1 })
+})
+
+test("only with bad key names", async t => {
+  const Model = SampleModel.extend(withAsyncStorage({ autoSave: false, only: ["lol"] }))
+  const model = Model.create({ age: 1, name: "kid" })
+  await model.save()
+  const ex = td.explain(reactNative.AsyncStorage.setItem)
+  t.deepEqual(JSON.parse(ex.calls[0].args[1]), {})
+})
+
+test("except", async t => {
+  const Model = SampleModel.extend(withAsyncStorage({ autoSave: false, except: ["name"] }))
+  const model = Model.create({ age: 1, name: "kid" })
+  await model.save()
+  const ex = td.explain(reactNative.AsyncStorage.setItem)
+  t.deepEqual(JSON.parse(ex.calls[0].args[1]), { age: 1 })
+})
