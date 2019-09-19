@@ -1,4 +1,4 @@
-import { AsyncStorage } from "react-native"
+import AsyncStorage from '@react-native-community/async-storage';
 
 export async function save(key: string, snapshot: {}) {
   const data = JSON.stringify(snapshot)
@@ -11,7 +11,7 @@ export async function load(key: string) {
     if (raw) {
       return JSON.parse(raw)
     }
-  } catch {}
+  } catch { }
 
   return undefined
 }
