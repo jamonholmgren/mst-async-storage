@@ -40,8 +40,7 @@
   },
   "devDependencies": {
     "@react-native-community/async-storage": "^1.6.1",
-    "@types/lodash.camelcase": "4.3.4",
-    "@types/react-native": "0.56.18",
+    "@types/lodash.camelcase": "4.3.6",
     "ava": "0.25.0",
     "lodash.camelcase": "4.3.0",
     "mobx": "5.13.0",
