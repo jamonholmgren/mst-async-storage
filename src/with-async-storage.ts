@@ -1,6 +1,6 @@
 import {
   flow,
-  applySnapshot,
+  applyPatch,
   IStateTreeNode,
   onSnapshot,
   getSnapshot,
@@ -98,7 +98,9 @@ export const withAsyncStorage = (options: WithAsyncStorageOptions = {}) => (
       load: flow(function*() {
         const data = yield load(key)
         if (data) {
-          applySnapshot(self, data)
+          Object.entries(data).forEach(([key, value]: [string, any]) =>
+            applyPatch(self, { op: "replace", path: `./${key}`, value }),
+          )
         }
 
         // now monitor for changes
