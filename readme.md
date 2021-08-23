@@ -6,7 +6,7 @@ A [mobx-state-tree](https://github.com/mobxjs/mobx-state-tree) extension grantin
 
 - `mobx-state-tree` 2.x or 3.x
 - `react-native` >= 0.56
-- `@react-native-community/async-storage` >= 1.x.x
+- `@react-native-async-storage/async-storage` >= 1.x.x
 
 # Installing
 
