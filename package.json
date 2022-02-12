@@ -1,5 +1,5 @@
 {
-  "version": "0.4.0",
+  "version": "0.3.0",
   "name": "mst-async-storage",
   "description": "Brings AsyncStorage support to mobx-state-tree for React Native projects.",
   "license": "MIT",
@@ -35,7 +35,7 @@
     "e2e": "npm-run-all clean:* compile test:compile test clean:* compile build"
   },
   "peerDependencies": {
-    "@react-native-async-storage/async-storage": "1.x.x",
+    "@react-native-async-storage/async-storage": "2.x.x",
     "mobx-state-tree": "2.x || 3.x"
   },
   "devDependencies": {
