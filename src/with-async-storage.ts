@@ -27,7 +27,20 @@ export interface WithAsyncStorageOptions {
   /**
    * A list of property names that will be filtered if they exist.
    */
-  except?: string | string[]
+  except?: string | string[],
+
+  /**
+   * A function that will be called after the state was loaded
+   * from AsyncStorage, in which you can modify the value that
+   * will be applied to the state.
+   */
+  onLoad?: (loaded: {} | undefined) => Promise<{} | undefined> | {} | undefined;
+
+  /**
+   * A function that will be called after a snapshot was taken
+   * but before it is passed to AsyncStorage
+   */
+  onSave?: (snapshot: {}) => {} | undefined;
 }
 
 /**
@@ -96,7 +109,10 @@ export const withAsyncStorage = (options: WithAsyncStorageOptions = {}) => (
        * Loads from async storage.
        */
       load: flow(function*() {
-        const data = yield load(key)
+        let data = yield load(key)
+        if (options.onLoad) {
+          data = yield Promise.resolve(options.onLoad(data))
+        }
         if (data) {
           applySnapshot(self, data)
         }
@@ -115,7 +131,11 @@ export const withAsyncStorage = (options: WithAsyncStorageOptions = {}) => (
        * called if autoSave has been turned off.
        */
       save: flow(function*() {
-        yield save(key, filterSnapshotKeys(getSnapshot(self)))
+        let snapshot = filterSnapshotKeys(getSnapshot(self));
+        if (options.onSave) {
+          snapshot = yield Promise.resolve(options.onSave(snapshot))
+        }
+        yield save(key, snapshot)
       }),
 
       beforeDetach() {

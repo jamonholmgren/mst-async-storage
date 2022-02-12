@@ -5,7 +5,7 @@ export async function save(key: string, snapshot: {}) {
   await AsyncStorage.setItem(key, data)
 }
 
-export async function load(key: string) {
+export async function load(key: string): Promise<{} | undefined> {
   try {
     const raw = await AsyncStorage.getItem(key)
     if (raw) {
