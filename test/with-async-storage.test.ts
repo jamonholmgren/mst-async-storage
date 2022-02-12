@@ -8,7 +8,7 @@ const AsyncStorage = {
   getItem: td.func(),
   setItem: td.func(),
 }
-td.replace("@react-native-community/async-storage", AsyncStorage)
+td.replace("@react-native-async-storage/async-storage", AsyncStorage)
 
 // recreate before each run
 test.beforeEach(t => {
@@ -122,4 +122,25 @@ test("except", async t => {
   await model.save()
   const ex = td.explain(AsyncStorage.setItem)
   t.deepEqual(JSON.parse(ex.calls[0].args[1]), { age: 1 })
+})
+
+test("middleware", async t => {
+  const Model = SampleModel.extend(withAsyncStorage({
+    autoSave: false,
+    onLoad(snapshot) {
+      return { name: "adult", ...snapshot }
+    },
+    onSave(snapshot) {
+      const copy = { ...snapshot } as any
+      delete copy.name;
+      return copy
+    },
+  }))
+  const model = Model.create({ age: 1, name: "kid" })
+  await model.save()
+  const ex = td.explain(AsyncStorage.setItem)
+  t.deepEqual(JSON.parse(ex.calls[0].args[1]), { age: 1 })
+  const loaded = Model.create()
+  await loaded.load()
+  t.is(loaded.name, "adult")
 })
