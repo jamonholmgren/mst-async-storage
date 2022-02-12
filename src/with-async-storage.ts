@@ -34,13 +34,13 @@ export interface WithAsyncStorageOptions {
    * from AsyncStorage, in which you can modify the value that
    * will be applied to the state.
    */
-  onLoad?: (loaded: {} | undefined) => Promise<{} | undefined> | {} | undefined;
+  onLoad?: (loaded: object | undefined) => Promise<object | undefined> | {} | undefined;
 
   /**
    * A function that will be called after a snapshot was taken
    * but before it is passed to AsyncStorage
    */
-  onSave?: (snapshot: {}) => {} | undefined;
+  onSave?: (snapshot: object) => Promise<object | undefined> | object | undefined;
 }
 
 /**
