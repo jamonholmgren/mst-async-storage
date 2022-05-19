@@ -8,7 +8,7 @@ import filesize from "rollup-plugin-filesize"
 const pkg = require("./package.json")
 
 const LIBRARY_NAME = pkg.name
-const GLOBALS = ["mobx-state-tree", "@react-native-community/async-storage"]
+const GLOBALS = ["mobx-state-tree", "@react-native-async-storage/async-storage"]
 
 export default {
   input: `build/es/${LIBRARY_NAME}.js`,
