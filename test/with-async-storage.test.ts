@@ -8,7 +8,7 @@ const AsyncStorage = {
   getItem: td.func(),
   setItem: td.func(),
 }
-td.replace("@react-native-community/async-storage", AsyncStorage)
+td.replace("@react-native-async-storage/async-storage", AsyncStorage)
 
 // recreate before each run
 test.beforeEach(t => {
