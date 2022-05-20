@@ -6,7 +6,7 @@ A [mobx-state-tree](https://github.com/mobxjs/mobx-state-tree) extension grantin
 
 - `mobx-state-tree` 2.x or 3.x
 - `react-native` >= 0.56
-- `@react-native-async-storage/async-storage` >= 1.17.5
+- `@react-native-async-storage/async-storage` >= 1.x.x
 
 # Installing
 
@@ -56,16 +56,59 @@ async demo () {
 }
 ```
 
+You can also intercept the snapshot after it is loaded and before it is saved with `onLoad` and `onSave`.
+
+```ts
+import { types } from "mobx-state-tree"
+import { withAsyncStorage } from "mst-async-storage"
+
+export const NiceThingsModel = types
+  .model("NiceThings")
+  .props({
+    unicorns: true,
+    dragons: true,
+    cake: true,
+    spiders: false,
+    nickleback: false,
+  })
+  .actions(self => ({
+    setSpiders(value: boolean) {
+      self.spiders = value
+    },
+  }))
+  .extend(
+    withAsyncStorage({
+      key: "nice.things",
+      // always ensures that nickelback is loaded into MST as `false` here
+      onLoad: snapshot => {
+        return {
+          ...snapshot,
+          nickleback: false,
+        }
+      },
+      // always ensures that nickelback is saved to AsyncStorage as `false` here
+      onSave: snapshot => {
+        return {
+          ...snapshot,
+          nickelback: false,
+        }
+      },
+    }),
+  )
+```
+
 # Options
 
 `withAsyncStorage()` accepts an optional object as a parameter with these keys:
 
-| key      | type             | what it does                                                                        |
-| -------- | ---------------- | ----------------------------------------------------------------------------------- |
-| key      | string           | The key to use when saving to AsyncStorage (default: the model type name)           |
-| autoSave | boolean          | Should we automatically save when any values change on the model? (default: `true`) |
-| only     | string, string[] | will only include the keys with these names                                         |
-| except   | string, string[] | will omit keys with these names                                                     |
+| key      | type              | what it does                                                                             |
+| -------- | ----------------- | ---------------------------------------------------------------------------------------- |
+| key      | string            | The key to use when saving to AsyncStorage (default: the model type name)                |
+| autoSave | boolean           | Should we automatically save when any values change on the model? (default: `true`)      |
+| only     | string, string[]  | will only include the keys with these names                                              |
+| except   | string, string[]  | will omit keys with these names                                                          |
+| onLoad   | (snapshot) => any | Will be called after state is loaded from AsyncStorage. Return snapshot to change it.    |
+| onSave   | (snapshot) => any | Will be called before AsyncStorage, allowing you to modify the snapshot by returning it. |
 
 # Contributing?
 
