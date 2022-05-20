@@ -3,13 +3,17 @@
   "name": "mst-async-storage",
   "description": "Brings AsyncStorage support to mobx-state-tree for React Native projects.",
   "license": "MIT",
-  "author": {
+  "authors": [{
     "name": "Steve Kellock",
     "email": "steve@kellock.ca",
     "url": "https://github.com/skellock"
-  },
-  "repository": "https://github.com/skellock/mst-async-storage",
-  "homepage": "https://github.com/skellock/mst-async-storage",
+  }, {
+    "name": "Jamon Holmgren",
+    "email": "jamonholmgren@gmail.com",
+    "url": "https://jamon.dev"
+  }],
+  "repository": "https://github.com/jamonholmgren/mst-async-storage",
+  "homepage": "https://github.com/jamonholmgren/mst-async-storage",
   "main": "dist/mst-async-storage.umd.js",
   "module": "dist/mst-async-storage.es5.js",
   "typings": "dist/mst-async-storage.d.ts",
@@ -22,7 +26,7 @@
     "compile": "tsc",
     "prebuild": "tsc",
     "build": "rollup -c rollup.config.ts",
-    "clean": "npm-run-all clean:*",
+    "clean": "npx npm-run-all clean:*",
     "clean:build": "rimraf build",
     "clean:dist": "rimraf dist",
     "format": "prettier --write {**,.}/*.ts && tslint -p . --fix",
@@ -31,8 +35,8 @@
     "test:compile": "tsc -p tsconfig-test.json --pretty",
     "test:compile:watch": "tsc -p tsconfig-test.json --pretty --watch",
     "test": "ava -s",
-    "e2e": "npm-run-all clean:* compile test:compile test clean:* compile build",
-    "ci:test": "npm-run-all clean:* test:compile test e2e",
+    "e2e": "npx npm-run-all clean:* compile test:compile test clean:* compile build",
+    "ci:test": "npx npm-run-all clean:* test:compile test e2e",
     "ci:publish": "semantic-release"
   },
   "peerDependencies": {
