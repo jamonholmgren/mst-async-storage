@@ -1,5 +1,5 @@
 {
-  "version": "0.2.1",
+  "version": "0.3.1",
   "name": "mst-async-storage",
   "description": "Brings AsyncStorage support to mobx-state-tree for React Native projects.",
   "license": "MIT",
