@@ -1,0 +1,49 @@
+defaults: &defaults
+  docker:
+    # Choose the version of Node you want here
+    - image: cimg/node:14.19.1
+  working_directory: ~/repo
+
+version: 2.1
+jobs:
+  setup:
+    <<: *defaults
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: |
+            yarn install
+
+  tests:
+    <<: *defaults
+    steps:
+      - checkout
+      - run:
+          name: Run tests
+          command: yarn ci:test
+
+  publish:
+    <<: *defaults
+    steps:
+      - checkout
+      - run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
+      # Run semantic-release after all the above is set.
+      - run:
+          name: Publish to NPM
+          command: yarn ci:publish # this will be added to your package.json scripts
+
+workflows:
+  version: 2.1
+  test_and_release:
+    jobs:
+      - setup
+      - tests:
+          requires:
+            - setup
+      - publish:
+          requires:
+            - tests
+          filters:
+            branches:
+              only: master

@@ -28,11 +28,12 @@
     "format": "prettier --write {**,.}/*.ts && tslint -p . --fix",
     "lint": "tslint -p .",
     "prepare": "yarn build",
-    "test:ci": "npm-run-all clean:* test:compile test",
     "test:compile": "tsc -p tsconfig-test.json --pretty",
     "test:compile:watch": "tsc -p tsconfig-test.json --pretty --watch",
     "test": "ava -s",
-    "e2e": "npm-run-all clean:* compile test:compile test clean:* compile build"
+    "e2e": "npm-run-all clean:* compile test:compile test clean:* compile build",
+    "ci:test": "npm-run-all clean:* test:compile test e2e",
+    "ci:publish": "semantic-release"
   },
   "peerDependencies": {
     "@react-native-community/async-storage": "1.x.x",
@@ -40,6 +41,7 @@
   },
   "devDependencies": {
     "@react-native-community/async-storage": "^1.6.1",
+    "@semantic-release/git": "^10.0.1",
     "@types/lodash.camelcase": "4.3.6",
     "ava": "2.4.0",
     "lodash.camelcase": "4.3.0",
@@ -53,6 +55,7 @@
     "rollup-plugin-filesize": "6.2.0",
     "rollup-plugin-node-resolve": "5.2.0",
     "rollup-plugin-sourcemaps": "0.4.2",
+    "semantic-release": "^19.0.2",
     "testdouble": "^3.12.4",
     "tslint": "5.20.0",
     "tslint-config-prettier": "1.18.0",
@@ -61,6 +64,21 @@
   "ava": {
     "files": [
       "build/**/*.test.js"
+    ]
+  },
+  "release": {
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      "@semantic-release/npm",
+      "@semantic-release/github",
+      [
+        "@semantic-release/git",
+        {
+          "assets": "package.json",
+          "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+        }
+      ]
     ]
   }
 }
