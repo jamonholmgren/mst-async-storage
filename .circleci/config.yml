@@ -6,7 +6,7 @@ defaults: &defaults
 
 version: 2.1
 jobs:
-  setup:
+  tests:
     <<: *defaults
     steps:
       - checkout
@@ -14,11 +14,6 @@ jobs:
           name: Install dependencies
           command: |
             yarn install
-
-  tests:
-    <<: *defaults
-    steps:
-      - checkout
       - run:
           name: Run tests
           command: yarn ci:test
@@ -28,6 +23,10 @@ jobs:
     steps:
       - checkout
       - run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
+      - run:
+          name: Install dependencies
+          command: |
+            yarn install
       # Run semantic-release after all the above is set.
       - run:
           name: Publish to NPM
@@ -37,10 +36,7 @@ workflows:
   version: 2.1
   test_and_release:
     jobs:
-      - setup
-      - tests:
-          requires:
-            - setup
+      - tests
       - publish:
           requires:
             - tests
