@@ -1,15 +1,22 @@
 {
-  "version": "0.3.0",
+  "version": "0.2.3",
   "name": "mst-async-storage",
   "description": "Brings AsyncStorage support to mobx-state-tree for React Native projects.",
   "license": "MIT",
-  "author": {
-    "name": "Steve Kellock",
-    "email": "steve@kellock.ca",
-    "url": "https://github.com/skellock"
-  },
-  "repository": "https://github.com/skellock/mst-async-storage",
-  "homepage": "https://github.com/skellock/mst-async-storage",
+  "authors": [
+    {
+      "name": "Steve Kellock",
+      "email": "steve@kellock.ca",
+      "url": "https://github.com/skellock"
+    },
+    {
+      "name": "Jamon Holmgren",
+      "email": "jamonholmgren@gmail.com",
+      "url": "https://jamon.dev"
+    }
+  ],
+  "repository": "https://github.com/jamonholmgren/mst-async-storage",
+  "homepage": "https://github.com/jamonholmgren/mst-async-storage",
   "main": "dist/mst-async-storage.umd.js",
   "module": "dist/mst-async-storage.es5.js",
   "typings": "dist/mst-async-storage.d.ts",
@@ -19,40 +26,40 @@
     "readme.md"
   ],
   "scripts": {
-    "compile": "tsc",
-    "prebuild": "tsc",
-    "build": "rollup -c rollup.config.ts",
-    "clean": "npm-run-all clean:*",
-    "clean:build": "rimraf build",
-    "clean:dist": "rimraf dist",
-    "format": "prettier --write {**,.}/*.ts && tslint -p . --fix",
+    "build": "BABEL_ENV=production rollup -c rollup.config.ts",
+    "clean": "yarn clean:build && yarn clean:dist",
+    "clean:build": "npx rimraf build",
+    "clean:dist": "npx rimraf dist",
+    "compile": "yarn tsc",
+    "prepare": "yarn compile && yarn build",
     "lint": "tslint -p .",
-    "prepare": "yarn build",
-    "test:ci": "npm-run-all clean:* test:compile test",
-    "test:compile": "tsc -p tsconfig-test.json --pretty",
-    "test:compile:watch": "tsc -p tsconfig-test.json --pretty --watch",
-    "test": "ava -s",
-    "e2e": "npm-run-all clean:* compile test:compile test clean:* compile build"
+    "test:compile": "yarn clean && yarn tsc -p tsconfig-test.json --pretty",
+    "test:compile:watch": "yarn tsc -p tsconfig-test.json --pretty --watch",
+    "test": "yarn test:compile && ava -s",
+    "ci:test": "yarn test",
+    "ci:publish": "yarn semantic-release",
+    "format": "prettier --write {\\*\\*,.}/\\*.ts && tslint -p . --fix"
   },
   "peerDependencies": {
-    "@react-native-async-storage/async-storage": "1.x.x",
+    "@react-native-async-storage/async-storage": "^1.x.x",
     "mobx-state-tree": "2.x || 3.x"
   },
   "devDependencies": {
-    "@react-native-async-storage/async-storage": "^1.15.7",
+    "mobx-state-tree": "5.1.3",
+    "prettier": "2.5.1",
+    "@react-native-async-storage/async-storage": "^1.17.5",
+    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/npm": "^9.0.1",
     "@types/lodash.camelcase": "4.3.6",
     "ava": "^3.15.0",
     "lodash.camelcase": "4.3.0",
     "mobx": "6.3.13",
-    "mobx-state-tree": "5.1.3",
-    "npm-run-all": "4.1.5",
-    "prettier": "2.5.1",
-    "rimraf": "^3.0.2",
     "rollup": "1.21.4",
     "rollup-plugin-commonjs": "10.1.0",
     "rollup-plugin-filesize": "6.2.0",
     "rollup-plugin-node-resolve": "5.2.0",
     "rollup-plugin-sourcemaps": "0.4.2",
+    "semantic-release": "^19.0.2",
     "testdouble": "^3.16.1",
     "ts-node": "^10.2.1",
     "tslint": "^6.1.3",
@@ -62,6 +69,21 @@
   "ava": {
     "files": [
       "build/**/*.test.js"
+    ]
+  },
+  "release": {
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      "@semantic-release/npm",
+      "@semantic-release/github",
+      [
+        "@semantic-release/git",
+        {
+          "assets": "package.json",
+          "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+        }
+      ]
     ]
   }
 }
