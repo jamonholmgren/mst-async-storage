@@ -47,6 +47,7 @@
   "devDependencies": {
     "@react-native-community/async-storage": "^1.6.1",
     "@semantic-release/git": "^10.0.1",
+    "@semantic-release/npm": "^9.0.1",
     "@types/lodash.camelcase": "4.3.6",
     "ava": "2.4.0",
     "lodash.camelcase": "4.3.0",
