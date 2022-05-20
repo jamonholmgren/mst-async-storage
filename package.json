@@ -23,21 +23,19 @@
     "readme.md"
   ],
   "scripts": {
-    "compile": "yarn tsc",
-    "prebuild": "yarn tsc",
-    "build": "rollup -c rollup.config.ts",
-    "clean": "npx npm-run-all clean:*",
+    "build": "BABEL_ENV=production rollup -c rollup.config.ts",
+    "clean": "yarn clean:build && yarn clean:dist",
     "clean:build": "npx rimraf build",
     "clean:dist": "npx rimraf dist",
-    "format": "prettier --write {\\*\\*,.}/\\*.ts && tslint -p . --fix",
+    "compile": "yarn tsc",
+    "prepare": "yarn compile && yarn build",
     "lint": "tslint -p .",
-    "prepare": "yarn build",
-    "test:compile": "yarn tsc -p tsconfig-test.json --pretty",
+    "test:compile": "yarn clean && yarn tsc -p tsconfig-test.json --pretty",
     "test:compile:watch": "yarn tsc -p tsconfig-test.json --pretty --watch",
-    "test": "ava -s",
-    "e2e": "npx npm-run-all clean:\\* compile test:compile test clean:\\* compile build",
-    "ci:test": "npx npm-run-all clean:\\* test:compile test e2e",
-    "ci:publish": "semantic-release"
+    "test": "yarn test:compile && ava -s",
+    "ci:test": "yarn test",
+    "ci:publish": "yarn semantic-release",
+    "format": "prettier --write {\\*\\*,.}/\\*.ts && tslint -p . --fix"
   },
   "peerDependencies": {
     "@react-native-community/async-storage": "1.x.x",
