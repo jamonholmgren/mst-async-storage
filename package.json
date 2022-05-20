@@ -29,14 +29,14 @@
     "clean": "npx npm-run-all clean:*",
     "clean:build": "npx rimraf build",
     "clean:dist": "npx rimraf dist",
-    "format": "prettier --write {**,.}/*.ts && tslint -p . --fix",
+    "format": "prettier --write {\\*\\*,.}/\\*.ts && tslint -p . --fix",
     "lint": "tslint -p .",
     "prepare": "yarn build",
     "test:compile": "yarn tsc -p tsconfig-test.json --pretty",
     "test:compile:watch": "yarn tsc -p tsconfig-test.json --pretty --watch",
     "test": "ava -s",
-    "e2e": "npx npm-run-all clean:* compile test:compile test clean:* compile build",
-    "ci:test": "npx npm-run-all clean:* test:compile test e2e",
+    "e2e": "npx npm-run-all clean:\\* compile test:compile test clean:\\* compile build",
+    "ci:test": "npx npm-run-all clean:\\* test:compile test e2e",
     "ci:publish": "semantic-release"
   },
   "peerDependencies": {
