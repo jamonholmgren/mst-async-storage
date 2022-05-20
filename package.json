@@ -1,17 +1,20 @@
 {
-  "version": "0.3.0",
+  "version": "0.2.1",
   "name": "mst-async-storage",
   "description": "Brings AsyncStorage support to mobx-state-tree for React Native projects.",
   "license": "MIT",
-  "authors": [{
-    "name": "Steve Kellock",
-    "email": "steve@kellock.ca",
-    "url": "https://github.com/skellock"
-  }, {
-    "name": "Jamon Holmgren",
-    "email": "jamonholmgren@gmail.com",
-    "url": "https://jamon.dev"
-  }],
+  "authors": [
+    {
+      "name": "Steve Kellock",
+      "email": "steve@kellock.ca",
+      "url": "https://github.com/skellock"
+    },
+    {
+      "name": "Jamon Holmgren",
+      "email": "jamonholmgren@gmail.com",
+      "url": "https://jamon.dev"
+    }
+  ],
   "repository": "https://github.com/jamonholmgren/mst-async-storage",
   "homepage": "https://github.com/jamonholmgren/mst-async-storage",
   "main": "dist/mst-async-storage.umd.js",
